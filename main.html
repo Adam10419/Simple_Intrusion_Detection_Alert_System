@@ -1,11 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Intrusion Detection System</title>
+  <link href="./CSS/stile.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Hello world</h1>
+  <div class="container">
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo">ID</div>
+        <div>
+          <div class="title">Intrusion Detection</div>
+          <div class="small-muted">Login to monitor alerts</div>
+        </div>
+      </div>
+      <div>
+        <a class="btn ghost" href="register.html">Create account</a>
+      </div>
+    </header>
+
+    <main class="card auth-wrap" role="main" aria-labelledby="login-title">
+      <aside class="auth-left">
+        <div class="auth-card">
+          <h2 id="login-title">Welcome back</h2>
+          <p class="helper">Sign in to your admin or user account to continue. The backend will track failed attempts and show alerts in the dashboard.</p>
+
+          <ul class="helper" style="list-style:disc;margin-left:1rem">
+            <li>Admins see a live alert feed</li>
+            <li>System logs failed attempts for analysis</li>
+          </ul>
+        </div>
+      </aside>
+
+      <section class="card" aria-label="Login form">
+        <!-- Form action: change to your backend endpoint (/login) -->
+        <form id="loginForm" method="POST" action="/login" class="form-grid" novalidate>
+          <div class="field">
+            <label class="label" for="username">Username or Email</label>
+            <input id="username" name="username" class="input" type="text" required autocomplete="username" />
+          </div>
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <div style="display:flex;gap:0.5rem">
+              <input id="password" name="password" class="input" type="password" required autocomplete="current-password" />
+              <button type="button" id="pwToggle" class="btn ghost" aria-label="Toggle password visibility">Show</button>
+            </div>
+          </div>
+
+          <div class="row" style="align-items:center;justify-content:space-between;margin-top:0.25rem">
+            <div class="helper"><label><input type="checkbox" name="remember"> Remember me</label></div>
+            <div><a class="helper" href="#">Forgot password?</a></div>
+          </div>
+
+          <div style="display:flex;gap:0.6rem;justify-content:flex-end;margin-top:0.5rem">
+            <button type="submit" class="btn">Sign in</button>
+          </div>
+
+          <div class="helper" style="margin-top:0.6rem">Tip: backend should increment a failed-attempt counter and trigger alerts after threshold.</div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Small UX: toggle password visibility
+    const pwToggle = document.getElementById('pwToggle');
+    const pw = document.getElementById('password');
+    pwToggle.addEventListener('click', () => {
+      const isPwd = pw.type === 'password';
+      pw.type = isPwd ? 'text' : 'password';
+      pwToggle.textContent = isPwd ? 'Hide' : 'Show';
+    });
+
+    // Optional: Block double submit (simple UX)
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', (e) => {
+      // let backend handle validation; disable button to avoid duplicates
+      form.querySelector('button[type="submit"]').disabled = true;
+    });
+  </script>
 </body>
 </html>
